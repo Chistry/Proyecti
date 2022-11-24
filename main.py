@@ -15,14 +15,15 @@ url_matches= 'https://raw.githubusercontent.com/Algoritmos-y-Programacion-2223-1
 r_matches= requests.get(url_matches)
 info_matches= r_matches.json()
 
-
+#Registra la informacion necesaria de los jsons
 def registrar():
     for key in info_teams:
         name = key["name"]
         group= key["group"]
         fifa_code= key["fifa_code"]
-        equipo= Teams(name, group, fifa_code)
-        Teams.equipos.append(equipo)
+        equipos= Teams(name, group, fifa_code)
+        Teams.equipos.append(equipos)
+        Teams.nombres.append(name)
 
     for key in info_stadiums:
         sta_name= key["name"]
@@ -34,15 +35,30 @@ def registrar():
         home_team= key["home_team"]
         away_team= key["away_team"]
         date_hour= key["date"]
-        Matches(home_team, away_team, date_hour)
+        sta_ID= key["stadium_id"]
+        partidos = Matches(date_hour, sta_ID, home_team, away_team)
+        Matches.lista_partidos.append(partidos)
+
 
 def mostrarequipos():
     for team in Teams.equipos:
         team.mostrar()
+
+def mostrarpartido():
+    for team in Matches.lista_partidos:
+        Teams.buscarequipospornombres(Matches.lista_partidos)
+
+def main():
+    #Teams.buscarequipospornombres(Teams.nombres)
+    #Teams.buscarequipospornombres(Matches.lista_partidos)
+    x=1
+
 
 
 
 
 
 registrar()
-mostrarequipos()
+mostrarpartido()
+
+
